@@ -32,18 +32,18 @@ architecture crazyDice_arch of crazyDice is
   end component IguaisCount;
 
 begin  -- architecture crazyDice_arch
- -- SumAll <= bit_vector ((unsigned(d1) + unsigned(d2)) + unsigned(d3));  --Soma de
-                                                                      --todos
 
- SumAll <= bit_vector ((unsigned("00" & d1) + unsigned("00" & d2)) + unsigned("00" & d3));  --Soma de
+  --Soma de todos os valores (Padding de "00" para não causar um erro)
+  SumAll <= bit_vector ((unsigned("00" & d1) + unsigned("00" & d2)) + unsigned("00" & d3));
 
-  --Valores dos dados considerando o nullifier
+
+  --Valores dos dados considerando o nullifier'
   d1_alt <= "000" when nullifier = "01" else d1;
   d2_alt <= "000" when nullifier = "10" else d2;
   d3_alt <= "000" when nullifier = "11" else d3;
 
   --Soma com nullifier
- SumEnul <= bit_vector ((unsigned("00" & d1_alt) + unsigned("00" & d2_alt)) + unsigned("00" & d3_alt));  --Soma de
+  SumEnul <= bit_vector ((unsigned("00" & d1_alt) + unsigned("00" & d2_alt)) + unsigned("00" & d3_alt));  --Soma de
 
   max1_2   : maximoDoisDados port map (d1_alt, d2_alt, partialMaX);  --Maximo Parcial
   maxFinal : maximoDoisDados port map (partialMax, d3_alt, Max);  --Maximo Final
